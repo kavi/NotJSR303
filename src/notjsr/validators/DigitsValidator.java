@@ -5,53 +5,58 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
+import javax.validation.ValidationException;
+import javax.validation.constraints.Digits;
 
 import notjsr.ValidationError;
 
-public class DecimalMinValidator implements Validator {
+/**
+ * 
+ * Warning this class is currently not tested and not expected to work properly due
+ * to the nature of BigDecimal and scaling.
+ *
+ */
+public class DigitsValidator implements Validator {
 
 	@Override
 	public <E> ValidationError<E> validate(E rootEntity, Annotation annotation, Object objectValue) {
 		if (objectValue == null) {
 			return null;
 		}
-		if (annotation.annotationType() != DecimalMin.class && annotation.annotationType() != Min.class) {
+		if (annotation.annotationType() != Digits.class) {
 			System.out.println(annotation.annotationType());
-			throw new RuntimeException(
-					"Internal error. DecimalMinValidator called with wrong type.");
+			throw new ValidationException("Internal error. DigitsValidator called with wrong type.");
 		}
-		BigDecimal minValue = null;
-		boolean inclusive = true;
-		if (annotation.annotationType() == DecimalMin.class) {  
-			DecimalMin decimalMinConstraint = (DecimalMin) annotation;
-			minValue = new BigDecimal(decimalMinConstraint.value());
-			inclusive = decimalMinConstraint.inclusive();
-		} else if (annotation.annotationType() == Min.class) {
-			Min decimalMinConstraint = (Min) annotation;
-			minValue = new BigDecimal(decimalMinConstraint.value());
-		}
+		Digits digitsConstraint = (Digits) annotation;
+		int fraction = digitsConstraint.fraction();
+		int integer = digitsConstraint.integer();
 		
 		BigDecimal value = null;
 		try {
 			value = getBigDecimalValue(objectValue);
 		} catch (ParseException e) {
 			ValidationError<E> error = new ValidationError<E>();
-			error.setMessage("Unable to parse value for DecimalMin. value="
+			error.setMessage("Unable to parse value for Digits. value="
 					+ objectValue);
 			return error;
 		}
-		if (value.compareTo(minValue) < 0) {
+		String[] plainString = value.toPlainString().split(".");
+		if (plainString.length == 0 || plainString.length > 2) {
+			throw new ValidationException("Internal error. Value could not be split into integer/fraction parts. value=" + value);
+		}
+		int actualIntLength = plainString[0].length();
+		int actualFracLength = 0;
+		if (plainString.length == 2) {
+			actualFracLength = plainString[1].length();
+		}
+		if (integer < actualIntLength) {
 			ValidationError<E> error = new ValidationError<E>();
-			error.setMessage("Value less than "
-					+ minValue);
+			error.setMessage("Integer length must not be greater than " + integer + ", but was " + actualIntLength);
 			return error;
 		}
-		if (!inclusive && value.compareTo(minValue) == 0) {
+		if (fraction < actualFracLength) {
 			ValidationError<E> error = new ValidationError<E>();
-			error.setMessage("Value must be greater than "
-					+ minValue);
+			error.setMessage("Fraction length must not be greater than " + fraction + ", but was " + actualFracLength);
 			return error;
 		}
 		return null;

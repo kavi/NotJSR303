@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 import javax.validation.UnexpectedTypeException;
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Max;
 
 import notjsr.ValidationError;
 
@@ -17,25 +18,33 @@ public class DecimalMaxValidator implements Validator {
 		if (objectValue == null) {
 			return null;
 		}
-		if (annotation.annotationType() != DecimalMax.class) {
+		if (annotation.annotationType() != DecimalMax.class && annotation.annotationType() != Max.class) {
 			throw new RuntimeException(
 					"Internal error. DecimalMaxValidator called with wrong type. " + annotation.annotationType());
 		}
-		DecimalMax decimalMaxConstraint = (DecimalMax) annotation;
-		BigDecimal maxValue = new BigDecimal(decimalMaxConstraint.value());
+		BigDecimal maxValue = null;
+		boolean inclusive = true;
+		if (annotation.annotationType() == DecimalMax.class) { 
+			DecimalMax decimalMaxConstraint = (DecimalMax) annotation;
+			maxValue = new BigDecimal(decimalMaxConstraint.value());
+			inclusive = decimalMaxConstraint.inclusive();
+		}
+		if (annotation.annotationType() == Max.class) {
+			maxValue = new BigDecimal(((Max) annotation).value());
+		}
 		BigDecimal value = getBigDecimalValue(objectValue);
 		if (value.compareTo(maxValue) > 0) {
 			ValidationError<E> error = new ValidationError<E>();
 			error.setMessage("Value greated than "
-					+ decimalMaxConstraint.value());
+					+ maxValue);
 			return error;
 		}
 		
-		if (!decimalMaxConstraint.inclusive()) {
+		if (!inclusive) {
 			if (value.compareTo(maxValue) == 0) {
 				ValidationError<E> error = new ValidationError<E>();
 				error.setMessage("Non-inclusive maxValue."
-						+ decimalMaxConstraint.value());
+						+ maxValue);
 				return error;
 			}
 		}

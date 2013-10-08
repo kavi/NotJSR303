@@ -4,6 +4,18 @@ NotJSR303
 # Description
 A subset implementation of javax.validation aka JSR303 because the full specification may not always be suitable.
 
+# Notes on Constraints
+
+## Groups
+Groups are not supported.
+
+## Past and Future
+Currently only java.util.Date is supported. Support for Calendar may be implemented in future versions.
+
+## Digits
+Digits supports String rather than CharSequence.
+It's also expected not to work correctly with BigDecimals that uses scaling.
+
 # Build instructions
 Make sure you have ant installed.
 Run:

@@ -16,14 +16,22 @@ import java.util.Set;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import notjsr.NotJSRPath.PathNode;
 import notjsr.validators.DecimalMaxValidator;
 import notjsr.validators.DecimalMinValidator;
+import notjsr.validators.DigitsValidator;
+import notjsr.validators.FutureValidator;
 import notjsr.validators.NotNullValidator;
+import notjsr.validators.PastValidator;
 import notjsr.validators.PatternValidator;
 import notjsr.validators.SizeValidator;
 import notjsr.validators.Validator;
@@ -52,12 +60,11 @@ public class NotJSRValidator<E> {
 		validators.put(Pattern.class, new PatternValidator());
 		validators.put(DecimalMax.class, new DecimalMaxValidator());
 		validators.put(DecimalMin.class, new DecimalMinValidator());
-		// } else if (at.equals(Min.class)) {
-		// /} else if (at.equals(Max.class)) {
-
-		// } else if (at.equals(Digits.class)) {
-		// } else if (at.equals(Past.class)) {
-		// } else if (at.equals(Future.class)) {
+		validators.put(Min.class, new DecimalMinValidator()); 
+		validators.put(Max.class, new DecimalMaxValidator()); 
+		validators.put(Digits.class, new DigitsValidator()); 
+		validators.put(Past.class, new PastValidator()); 
+		validators.put(Future.class, new FutureValidator()); 
 	}
 
 	public ObjectGraph getObjectGraph() {

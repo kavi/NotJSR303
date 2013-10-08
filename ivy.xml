@@ -1,5 +1,5 @@
 <ivy-module version="1.0">
-    <info organisation="internal" module="NotJSR303" status="integration"/>
+    <info organisation="internal" module="notjsr303" status="integration"/>
     <configurations>
     	<conf name="compile"/>
     	<conf name="runtime"/>
@@ -8,12 +8,11 @@
     </configurations>
     <publications> 
       <artifact conf="compile,runtime"/>
-      <artifact name="coreutil-src" type="source" ext="jar" conf="src" />      
+      <artifact name="notjsr303-src" type="source" ext="jar" conf="src" />      
     </publications>
     <dependencies defaultconf="compile->compile;runtime->runtime;src->src">
-        <dependency org="thirdparty" name="log4j" rev="1.2.16"/>
-        <dependency org="thirdparty" name="validation-api" rev="1.1.0.Final"/>
-        <dependency org="thirdparty" name="junit" rev="4.10" conf="test->compile,runtime;src->src"/>
-        <dependency org="thirdparty" name="cobertura" rev="1.9.4.1" conf="test->compile,runtime"/>
+	  <dependency org="thirdparty" name="validation-api" rev="1.1.0.Final"/>
+ 	  <dependency org="thirdparty" name="junit" rev="4.10" conf="test->compile,runtime;src->src"/>
+      <dependency org="thirdparty" name="cobertura" rev="1.9.4.1" conf="test->compile,runtime"/>
     </dependencies>
 </ivy-module>

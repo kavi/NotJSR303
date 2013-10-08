@@ -11,6 +11,7 @@
         <ivy pattern="http://178.79.183.218/ivy/[organization]/[module]/[module]-[revision]/ivy-[revision].xml"/>
         <artifact pattern="http://178.79.183.218/ivy/[organization]/[module]/[module]-[revision]/[artifact]-[revision].[ext]"/>
       </url>
+      <ibiblio name="central" m2compatible="true"/>
       <filesystem name="publisher" cache="myCache">
         <ivy pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/ivy-[revision].xml"/>
         <artifact pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/[artifact]-[revision].[ext]"/>

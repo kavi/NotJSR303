@@ -16,6 +16,16 @@ Currently only java.util.Date is supported. Support for Calendar may be implemen
 Digits supports String rather than CharSequence.
 It's also expected not to work correctly with BigDecimals that uses scaling.
 
+## Null, AssertFalse, AssertTrue
+These Constraints are currently unsupported.
+
+## NotNull, Size, Pattern
+These annotations should work according to specification.
+
+## DecimalMin, Min and DecimalMax, Max
+These work similarly, which seems according to spec. The difference being that "inclusive" is 
+explicit on the Decimal versions and implicitly true on Min/Max.
+
 # Build instructions
 Make sure you have ant installed.
 Run:

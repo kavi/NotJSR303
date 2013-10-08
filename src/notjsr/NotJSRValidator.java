@@ -65,13 +65,7 @@ public class NotJSRValidator<E> {
 	}
 
 	private Validator getValidator(Annotation a) {
-		Class<? extends Annotation> at = a.annotationType();
-		for (Class<? extends Annotation> c : validators.keySet()) {
-			if (c.equals(at)) {
-				return validators.get(c);
-			}
-		}
-		return null;
+		return validators.get(a.annotationType());
 	}
 
 	private Object getValue(Object o, Field f) {

@@ -1,0 +1,3 @@
+<project name="NotJSR303" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant"> 
+	<import file="externals/java_build.xml"/>
+</project>

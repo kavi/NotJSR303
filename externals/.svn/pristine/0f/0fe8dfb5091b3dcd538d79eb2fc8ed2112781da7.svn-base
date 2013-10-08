@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ivysettings>
+  <settings defaultResolver="chained"/>
+  <caches default="myCache" artifactPattern="[organisation]/[conf]/[artifact]-[revision].[ext]">
+    <cache name="myCache" basedir="${basedir}/ant/cache"/>
+  </caches>
+  <property name="java.net.maven.pattern" value="[organisation]/jars/[module]-[revision].[ext]"/>
+  <resolvers>
+    <chain name="chained" returnFirst="true">
+      <url name="url" cache="myCache">
+        <ivy pattern="http://minecraft/ivy/[organization]/[module]/[module]-[revision]/ivy-[revision].xml"/>
+        <artifact pattern="http://minecraft/ivy/[organization]/[module]/[module]-[revision]/[artifact]-[revision].[ext]"/>
+      </url>
+      <ssh name="ssh" cache="myCache" user="ivy" userPassword="nissefar" host="178.79.183.218" port="52022">
+        <ivy pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/ivy-[revision].xml"/>
+        <artifact pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/[artifact]-[revision].[ext]"/>
+      </ssh>
+      <filesystem name="publisher" cache="myCache">
+        <ivy pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/ivy-[revision].xml"/>
+        <artifact pattern="/var/www/ivy/[organization]/[module]/[module]-[revision]/[artifact]-[revision].[ext]"/>
+      </filesystem>
+    </chain>
+  </resolvers>
+</ivysettings>

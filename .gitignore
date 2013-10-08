@@ -1,6 +1,12 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
+ant
+lib
+.classpath
+.project
+.settings
+cobertura.ser
+*~

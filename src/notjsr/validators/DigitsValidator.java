@@ -12,12 +12,11 @@ import notjsr.ValidationError;
 
 /**
  * 
- * Warning this class is currently not tested and not expected to work properly due
- * to the nature of BigDecimal and scaling.
+ * Warning: this class is currently not tested and not expected to work properly due
+ * to the nature of BigDecimal and scaling.	
  *
  */
 public class DigitsValidator implements Validator {
-
 	@Override
 	public <E> ValidationError<E> validate(E rootEntity, Annotation annotation, Object objectValue) {
 		if (objectValue == null) {
